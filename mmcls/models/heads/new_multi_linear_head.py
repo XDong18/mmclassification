@@ -61,14 +61,15 @@ class NewMultiLinearClsHead(ClsHead):
             # if i != 2:
             #     continue
             labels_i = torch.stack([l[i] for l in gt_label])
-            loss += self.compute_loss(cls_scores[i], labels_i - 1)
+            print('\npin\n', i, labels_i.max(), '\npin\n')
+            loss += self.compute_loss(cls_scores[i], labels_i)
 
         # loss = self.compute_loss(cls_score, gt_label, avg_factor=num_samples)
         # compute accuracy
         accs = []
         for i in range(len(gt_label[0])):
             labels_i = torch.stack([l[i] for l in gt_label])
-            acc = self.compute_accuracy(cls_scores[i], labels_i - 1)
+            acc = self.compute_accuracy(cls_scores[i], labels_i)
             accs.append(acc)
 
         # acc = self.compute_accuracy(cls_score, gt_label)
