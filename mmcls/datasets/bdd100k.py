@@ -16,7 +16,6 @@ class BddCls(BaseDataset):
                  label_dir,
                  *args,
                  **kwargs):
-        super(BddCls, self).__init__(*args, **kwargs)
         # data
         # self.test_mode = test_mode
         self.image_dir = image_dir
@@ -26,9 +25,10 @@ class BddCls(BaseDataset):
         self.labels = {}
         for k in label_data.keys():
             self.labels[k] = label_data[k]
+        super(BddCls, self).__init__(*args, **kwargs)
         # self.phase = phase.split('_')[-1]
         # self.flip_ratio = flip_ratio
-        self.flag = np.ones(len(self), dtype=np.uint8)
+        # self.flag = np.ones(len(self), dtype=np.uint8)
         # self.task = task
 
     # def __getitem__(self, idx):
