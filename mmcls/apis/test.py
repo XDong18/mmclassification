@@ -88,7 +88,9 @@ def multi_gpu_test(model, data_loader, tmpdir=None, gpu_collect=False):
         list: The prediction results.
     """
     model.eval()
-    results = []
+    results_0 = []
+    results_1 = []
+    results_2 = []
     dataset = data_loader.dataset
     rank, world_size = get_dist_info()
     if rank == 0:
@@ -98,9 +100,13 @@ def multi_gpu_test(model, data_loader, tmpdir=None, gpu_collect=False):
         with torch.no_grad():
             result = model(return_loss=False, **data)
         if isinstance(result, list):
-            results.extend(result)
+            results_0.extend(result[0])
+            results_1.extend(result[1])
+            results_2.extend(result[2])
         else:
-            results.append(result)
+            pass
+            # for i in range(len(list_results)):
+                # list_results[i].append(result[i])
 
         if rank == 0:
             batch_size = data['img'].size(0)
@@ -109,10 +115,14 @@ def multi_gpu_test(model, data_loader, tmpdir=None, gpu_collect=False):
 
     # collect results from all ranks
     if gpu_collect:
-        results = collect_results_gpu(results, len(dataset))
+        results_0 = collect_results_gpu(results_0, len(dataset))
+        results_1 = collect_results_gpu(results_1, len(dataset))
+        results_2 = collect_results_gpu(results_2, len(dataset))
     else:
-        results = collect_results_cpu(results, len(dataset), tmpdir)
-    return results
+        results_0 = collect_results_cpu(results_0, len(dataset), tmpdir)
+        results_1 = collect_results_cpu(results_1, len(dataset), tmpdir)
+        results_2 = collect_results_cpu(results_2, len(dataset), tmpdir)
+    return [results_0, results_1, results_2]
 
 
 def collect_results_cpu(result_part, size, tmpdir=None):
