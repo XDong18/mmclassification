@@ -14,5 +14,5 @@ model = dict(
         multi_num_classes=[6,6,3],
         in_channels=2048,
         loss=dict(type='CrossEntropyLoss', loss_weight=1.0),
-        topk=(1, 5),
+        topk=(1,),
     ))
