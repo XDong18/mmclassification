@@ -6,7 +6,6 @@ model = dict(
         type='ResNet',
         depth=101,
         num_stages=4,
-        stem_channels=128,
         out_indices=(3, ),
         style='pytorch'),
     neck=dict(type='GlobalAveragePooling'),

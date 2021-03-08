@@ -80,6 +80,6 @@ class NewMultiLinearClsHead(ClsHead):
         return losses
 
     def forward_train(self, x, gt_label):
-        cls_scores = [fc(img) for fc in self.fcs]
+        cls_scores = [fc(x) for fc in self.fcs]
         losses = self.loss(cls_scores, gt_label)
         return losses
