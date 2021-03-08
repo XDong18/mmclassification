@@ -107,6 +107,7 @@ class BddCls(BaseDataset):
         ]
         eval_results = {}
         results_0 = np.vstack(results[0])
+        print('\npin1\n', results_0.shape, '\npin1\n')
         results_1 = np.vstack(results[1])
         results_2 = np.vstack(results[2])
         list_results = [results_0, results_1, results_2]
@@ -114,6 +115,7 @@ class BddCls(BaseDataset):
         list_gt_labels = [gt_labels_0, gt_labels_1, gt_labels_2]
 
         num_imgs = len(results[0])
+        print('\npin2\n', len(gt_labels_0), num_imgs, '\npin2\n')
         # assert len(gt_labels_0) == num_imgs, 'dataset testing results should '\
         #     'be of the same length as gt_labels.'
 
@@ -121,8 +123,8 @@ class BddCls(BaseDataset):
         if len(invalid_metrics) != 0:
             raise ValueError(f'metirc {invalid_metrics} is not supported.')
 
-        topk = metric_options.get('topk', (1, 5))
-        print('pin', topk)
+        topk = metric_options.get('topk', (1,))
+        print('\npin\n', topk, '\npin\n')
         thrs = metric_options.get('thrs')
         average_mode = metric_options.get('average_mode', 'macro')
 
