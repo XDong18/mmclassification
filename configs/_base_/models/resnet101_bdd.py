@@ -1,9 +1,9 @@
 # model settings
 model = dict(
     type='ImageClassifier',
+    pretrained='open-mmlab://resnet101',
     backbone=dict(
         type='ResNet',
-        pretrained='open-mmlab://resnet101',
         depth=101,
         num_stages=4,
         stem_channels=128,
