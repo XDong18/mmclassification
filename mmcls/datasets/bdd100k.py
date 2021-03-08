@@ -14,11 +14,6 @@ class BddCls(BaseDataset):
     def __init__(self,
                  image_dir,
                  label_dir,
-                 flip_ratio=0.5,
-                 with_lane=True,
-                 with_drivable=True,
-                 crop_size=None,
-                 task='cls',
                  *args,
                  **kwargs):
         super(BddCls, self).__init__(*args, **kwargs)

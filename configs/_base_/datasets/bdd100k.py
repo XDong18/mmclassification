@@ -26,17 +26,20 @@ data = dict(
         type=dataset_type,
         image_dir='/shared/xudongliu/bdd100k/' + 'images/100k/train/',
         label_dir='/shared/xudongliu/bdd100k/' + 'labels/cls/cls_train.json',
+        data_prefix = None,
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
         image_dir='/shared/xudongliu/bdd100k/' + 'images/100k/val/',
         label_dir='/shared/xudongliu/bdd100k/' + 'labels/cls/cls_val.json',
+        data_prefix = None,
         pipeline=test_pipeline),
     test=dict(
         # replace `data/val` with `data/test` for standard test
         type=dataset_type,
         image_dir='/shared/xudongliu/bdd100k/' + 'images/100k/val/',
         label_dir='/shared/xudongliu/bdd100k/' + 'labels/cls/cls_val.json',
+        data_prefix = None,
         pipeline=test_pipeline))
 
 evaluation = dict(interval=1, metric='accuracy')
