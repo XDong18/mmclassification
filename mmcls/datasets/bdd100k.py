@@ -4,6 +4,8 @@ import numpy as np
 
 from .base_dataset import BaseDataset
 from .builder import DATASETS
+from mmcls.models.losses import accuracy
+from mmcls.core.evaluation import precision_recall_f1, support
 import mmcv
 import json
 
