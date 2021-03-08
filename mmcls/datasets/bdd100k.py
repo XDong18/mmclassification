@@ -122,6 +122,7 @@ class BddCls(BaseDataset):
             raise ValueError(f'metirc {invalid_metrics} is not supported.')
 
         topk = metric_options.get('topk', (1, 5))
+        print('pin', topk)
         thrs = metric_options.get('thrs')
         average_mode = metric_options.get('average_mode', 'macro')
 
