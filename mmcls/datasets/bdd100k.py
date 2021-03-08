@@ -136,7 +136,7 @@ class BddCls(BaseDataset):
                         f'accuracy_top-{k}-{NAME_DICT[i]}': a
                         for k, a in zip(topk, acc)
                     }
-                    list_eval_results_.append(eval_results_s)
+                    list_eval_results_.append(eval_results_)
                     
             else:
                 list_eval_results_ = [{f'accuracy_{NAME_DICT[i]}': acc} for i, acc in enumerate(list_acc)]
