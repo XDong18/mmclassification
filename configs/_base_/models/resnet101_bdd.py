@@ -1,7 +1,7 @@
 # model settings
 model = dict(
     type='ImageClassifier',
-    pretrained='torchvision://resnet101_caffe',
+    pretrained='torchvision://resnet101',
     backbone=dict(
         type='ResNet',
         depth=101,
