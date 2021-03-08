@@ -145,7 +145,7 @@ class BddCls(BaseDataset):
                         for thr, value in zip(thrs, values)
                     })
             else:
-                for eval_results_i_ in in list_eval_results_:
+                for eval_results_i_ in list_eval_results_:
                     eval_results.update(
                         {k: v.item()
                         for k, v in eval_results_.items()})
@@ -164,7 +164,7 @@ class BddCls(BaseDataset):
                 precision_recall_f1_values = precision_recall_f1(
                     results, gt_labels, average_mode=average_mode, thrs=thrs)
                 list_precision_recall_f1_values.extend(precision_recall_f1_values)
-                
+
             for key, values in zip(precision_recall_f1_keys,
                                    precision_recall_f1_values):
                 if key in metrics:
