@@ -61,7 +61,7 @@ class BddCls(BaseDataset):
     def load_annotations(self):
         data_infos = []
         for file_name, label_weather, label_scene, label_time in \
-            zip(self.labels['name'], self.labels['weather'], \
+            zip(self.labels['names'], self.labels['weather'], \
                 self.labels['scene'], self.labels['timeofday']):
             info = {'img_prefix': self.img_prefix}
             info['img_info'] = {'filename': file_name}
