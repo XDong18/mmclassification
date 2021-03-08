@@ -67,9 +67,9 @@ class BddCls(BaseDataset):
             info = {'img_prefix': self.img_prefix}
             info['img_info'] = {'filename': file_name}
             gt_cls = np.array([
-            label_weather,
-            label_scene,
-            label_time], dtype=np.int64)
+            label_weather - 1,
+            label_scene - 1,
+            label_time - 1], dtype=np.int64)
             info['gt_label'] = gt_cls
             data_infos.append(info)
 

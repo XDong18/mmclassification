@@ -61,7 +61,7 @@ class NewMultiLinearClsHead(ClsHead):
             # if i != 2:
             #     continue
             labels_i = torch.stack([l[i] for l in gt_label])
-            print('\npin\n', i, labels_i.max(), '\npin\n')
+            # print('\npin\n', i, labels_i.max(), '\npin\n')
             loss += self.compute_loss(cls_scores[i], labels_i)
 
         # loss = self.compute_loss(cls_score, gt_label, avg_factor=num_samples)

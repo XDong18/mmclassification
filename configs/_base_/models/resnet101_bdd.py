@@ -13,6 +13,6 @@ model = dict(
         type='NewMultiLinearClsHead',
         multi_num_classes=[6,6,3],
         in_channels=2048,
-        loss=dict(type='CrossEntropyLoss', loss_weight=1.0),
+        loss=dict(type='CrossEntropyLoss', loss_weight=1.0, ignore_index=-1),
         topk=(1,),
     ))
