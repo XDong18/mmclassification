@@ -62,8 +62,8 @@ class BddCls(BaseDataset):
     def load_annotations(self):
         data_infos = []
         for file_name, label_weather, label_scene, label_time in \
-            zip(self.labels['names'], self.labels['weather'], \
-                self.labels['scene'], self.labels['timeofday'])[:100]:
+            zip(self.labels['names'][:100], self.labels['weather'][:100], \
+                self.labels['scene'][:100], self.labels['timeofday'][:100]):
             info = {'img_prefix': self.img_prefix}
             info['img_info'] = {'filename': file_name}
             gt_cls = np.array([
