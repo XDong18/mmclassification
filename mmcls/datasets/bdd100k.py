@@ -112,7 +112,7 @@ class BddCls(BaseDataset):
         list_gt_labels = [gt_labels_0, gt_labels_1, gt_labels_2]
 
         num_imgs = len(results[0])
-        assert len(gt_labels) == num_imgs, 'dataset testing results should '\
+        assert len(gt_labels_0) == num_imgs, 'dataset testing results should '\
             'be of the same length as gt_labels.'
 
         invalid_metrics = set(metrics) - set(allowed_metrics)
