@@ -5,7 +5,7 @@ from ..builder import LOSSES
 from .utils import weight_reduce_loss
 
 
-def cross_entropy(pred, label, weight=None, reduction='mean', avg_factor=None):
+def cross_entropy(pred, label, weight=None, reduction='mean', avg_factor=None, ignore_index=-100):
     """Calculate the CrossEntropy loss.
 
     Args:
@@ -21,7 +21,7 @@ def cross_entropy(pred, label, weight=None, reduction='mean', avg_factor=None):
         torch.Tensor: The calculated loss
     """
     # element-wise losses
-    loss = F.cross_entropy(pred, label, reduction='none')
+    loss = F.cross_entropy(pred, label, reduction='none', ignore_index=ignore_index)
 
     # apply weights and do the reduction
     if weight is not None:
@@ -118,10 +118,12 @@ class CrossEntropyLoss(nn.Module):
                  use_sigmoid=False,
                  use_soft=False,
                  reduction='mean',
-                 loss_weight=1.0):
+                 loss_weight=1.0,
+                 ignore_index=-100):
         super(CrossEntropyLoss, self).__init__()
         self.use_sigmoid = use_sigmoid
         self.use_soft = use_soft
+        self.ignore_index = ignore_index
         assert not (
             self.use_soft and self.use_sigmoid
         ), 'use_sigmoid and use_soft could not be set simultaneously'
@@ -152,5 +154,6 @@ class CrossEntropyLoss(nn.Module):
             weight,
             reduction=reduction,
             avg_factor=avg_factor,
+            ignore_index=self.ignore_index,
             **kwargs)
         return loss_cls
