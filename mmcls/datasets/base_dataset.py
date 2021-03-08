@@ -61,8 +61,10 @@ class BaseDataset(Dataset, metaclass=ABCMeta):
             list[int]: categories for all images.
         """
 
-        gt_labels = np.array([data['gt_label'] for data in self.data_infos])
-        return gt_labels
+        gt_labels_0 = np.array([data['gt_label'][0] for data in self.data_infos])
+        gt_labels_1 = np.array([data['gt_label'][1] for data in self.data_infos])
+        gt_labels_2 = np.array([data['gt_label'][2] for data in self.data_infos])
+        return gt_labels_0, gt_labels_1, gt_labels_2
 
     def get_cat_ids(self, idx):
         """Get category id by index.

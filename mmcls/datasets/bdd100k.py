@@ -8,6 +8,7 @@ import mmcv
 import json
 
 
+NAME_DICT = {0: 'weather', 1:'scene', 2:'time'}
 @DATASETS.register_module
 class BddCls(BaseDataset):
 
@@ -73,3 +74,106 @@ class BddCls(BaseDataset):
             data_infos.append(info)
 
         return data_infos
+    
+    def evaluate(self,
+                 results,
+                 metric='accuracy',
+                 metric_options=None,
+                 logger=None):
+        """Evaluate the dataset.
+
+        Args:
+            results (list): Testing results of the dataset.
+            metric (str | list[str]): Metrics to be evaluated.
+                Default value is `accuracy`.
+            metric_options (dict, optional): Options for calculating metrics.
+                Allowed keys are 'topk', 'thrs' and 'average_mode'.
+                Defaults to None.
+            logger (logging.Logger | str, optional): Logger used for printing
+                related information during evaluation. Defaults to None.
+        Returns:
+            dict: evaluation results
+        """
+        if metric_options is None:
+            metric_options = {'topk': (1, 5)}
+        if isinstance(metric, str):
+            metrics = [metric]
+        else:
+            metrics = metric
+        allowed_metrics = [
+            'accuracy', 'precision', 'recall', 'f1_score', 'support'
+        ]
+        eval_results = {}
+        results_0 = np.vstack(results[0])
+        results_1 = np.vstack(results[1])
+        results_2 = np.vstack(results[2])
+        list_results = [results_0, results_1, results_2]
+        gt_labels_0, gt_labels_1, gt_labels_2 = self.get_gt_labels()
+        list_gt_labels = [gt_labels_0, gt_labels_1, gt_labels_2]
+
+        num_imgs = len(results[0])
+        assert len(gt_labels) == num_imgs, 'dataset testing results should '\
+            'be of the same length as gt_labels.'
+
+        invalid_metrics = set(metrics) - set(allowed_metrics)
+        if len(invalid_metrics) != 0:
+            raise ValueError(f'metirc {invalid_metrics} is not supported.')
+
+        topk = metric_options.get('topk', (1, 5))
+        thrs = metric_options.get('thrs')
+        average_mode = metric_options.get('average_mode', 'macro')
+
+        if 'accuracy' in metrics:
+            list_acc = [accuracy(results_i, gt_labels_i, topk=topk, thrs=thrs) \
+                for results_i, gt_labels_i in zip(list_results, list_gt_labels)]
+
+            if isinstance(topk, tuple):
+                list_eval_results_ = []
+                for i, acc in enumerate(list_acc):
+                    eval_results_ = {
+                        f'accuracy_top-{k}-{NAME_DICT[i]}': a
+                        for k, a in zip(topk, acc)
+                    }
+                    list_eval_results_.append(eval_results_s)
+                    
+            else:
+                list_eval_results_ = [{f'accuracy_{NAME_DICT[i]}': acc} for i, acc in enumerate(list_acc)]
+            if isinstance(thrs, tuple):
+                for key, values in eval_results_.items():
+                    eval_results.update({
+                        f'{key}_thr_{thr:.2f}': value.item()
+                        for thr, value in zip(thrs, values)
+                    })
+            else:
+                for eval_results_i_ in in list_eval_results_:
+                    eval_results.update(
+                        {k: v.item()
+                        for k, v in eval_results_.items()})
+
+        if 'support' in metrics:
+            support_value = support(
+                results, gt_labels, average_mode=average_mode)
+            eval_results['support'] = support_value
+
+        precision_recall_f1_keys = ['precision', 'recall', 'f1_score']
+        if len(set(metrics) & set(precision_recall_f1_keys)) != 0:
+            list_precision_recall_f1_keys = []
+            list_precision_recall_f1_values = []
+            for i, results, gt_labels in enumerate(zip(list_results, list_gt_labels)):
+                list_precision_recall_f1_keys.extend([key_i + f'_{NAME_DICT[i]}' for key_i in precision_recall_f1_keys])
+                precision_recall_f1_values = precision_recall_f1(
+                    results, gt_labels, average_mode=average_mode, thrs=thrs)
+                list_precision_recall_f1_values.extend(precision_recall_f1_values)
+                
+            for key, values in zip(precision_recall_f1_keys,
+                                   precision_recall_f1_values):
+                if key in metrics:
+                    if isinstance(thrs, tuple):
+                        eval_results.update({
+                            f'{key}_thr_{thr:.2f}': value
+                            for thr, value in zip(thrs, values)
+                        })
+                    else:
+                        eval_results[key] = values
+
+        return eval_results

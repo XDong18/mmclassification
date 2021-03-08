@@ -46,14 +46,14 @@ class NewMultiLinearClsHead(ClsHead):
         cls_scores = [fc(img) for fc in self.fcs]
         # if isinstance(cls_score, list):
         #     cls_score = sum(cls_score) / float(len(cls_score))
-        pred = F.softmax(cls_score, dim=1) if cls_score is not None else None
+        preds = [F.softmax(cls_score, dim=1) if cls_score is not None else None for cls_score in cls_scores]
         if torch.onnx.is_in_onnx_export():
-            return pred
-        pred = list(pred.detach().cpu().numpy())
-        return pred
+            return preds
+        preds = [list(pred.detach().cpu().numpy()) for pred in preds]
+        return preds
 
     def loss(self, cls_scores, gt_label):
-        num_samples = len(cls_score)
+        num_samples = len(cls_scores)
         losses = dict()
         # compute loss
         loss = 0

@@ -25,7 +25,7 @@ def single_gpu_test(model,
         with torch.no_grad():
             result = model(return_loss=False, **data)
 
-        batch_size = len(result)
+        batch_size = len(result[0])
         results.extend(result)
 
         if show or out_dir:
