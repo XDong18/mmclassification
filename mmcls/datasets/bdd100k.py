@@ -22,10 +22,10 @@ class BddCls(BaseDataset):
         self.image_dir = image_dir
         self.img_prefix = self.image_dir
         with open(label_dir) as f:
-            self.labels = json.load(f)
-        # temporary
-        for k in self.labels.keys():
-            self.labels[k] = self.labels[k]
+            label_data = json.load(f)
+        self.labels = {}
+        for k in label_data.keys():
+            self.labels[k] = label_data[k]
         # self.phase = phase.split('_')[-1]
         # self.flip_ratio = flip_ratio
         self.flag = np.ones(len(self), dtype=np.uint8)
