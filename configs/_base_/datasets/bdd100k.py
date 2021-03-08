@@ -1,7 +1,7 @@
 # dataset settings
 dataset_type = 'BddCls'
 img_norm_cfg = dict(
-    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375, to_rgb=True)
+    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='RandomCrop', size=640),
@@ -38,5 +38,5 @@ data = dict(
         image_dir='/shared/xudongliu/bdd100k/' + 'images/100k/val/',
         label_dir='/shared/xudongliu/bdd100k/' + 'labels/cls/cls_val.json',
         pipeline=test_pipeline))
-        
+
 evaluation = dict(interval=1, metric='accuracy')
