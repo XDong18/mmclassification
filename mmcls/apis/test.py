@@ -119,9 +119,9 @@ def multi_gpu_test(model, data_loader, tmpdir=None, gpu_collect=False):
         results_1 = collect_results_gpu(results_1, len(dataset))
         results_2 = collect_results_gpu(results_2, len(dataset))
     else:
-        results_0 = collect_results_cpu(results_0, len(dataset), tmpdir)
-        results_1 = collect_results_cpu(results_1, len(dataset), tmpdir)
-        results_2 = collect_results_cpu(results_2, len(dataset), tmpdir)
+        results_0 = collect_results_cpu(results_0, len(dataset), './temp_0')
+        results_1 = collect_results_cpu(results_1, len(dataset), './temp_1')
+        results_2 = collect_results_cpu(results_2, len(dataset), './temp_2')
     return [results_0, results_1, results_2]
 
 
