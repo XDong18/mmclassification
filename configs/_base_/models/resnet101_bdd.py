@@ -1,7 +1,7 @@
 # model settings
 model = dict(
     type='ImageClassifier',
-    pretrained='open-mmlab://resnet101',
+    pretrained='open-mmlab://detectron/resnet101_caffe',
     backbone=dict(
         type='ResNet',
         depth=101,
