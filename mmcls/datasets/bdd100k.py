@@ -97,7 +97,7 @@ class BddCls(BaseDataset):
             dict: evaluation results
         """
         if metric_options is None:
-            metric_options = {'topk': (1, 5)}
+            metric_options = {'topk': (1,)}
         if isinstance(metric, str):
             metrics = [metric]
         else:
@@ -150,7 +150,7 @@ class BddCls(BaseDataset):
                 for eval_results_i_ in list_eval_results_:
                     eval_results.update(
                         {k: v.item()
-                        for k, v in eval_results_.items()})
+                        for k, v in eval_results_i_.items()})
 
         if 'support' in metrics:
             support_value = support(
