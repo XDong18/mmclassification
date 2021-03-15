@@ -10,7 +10,7 @@ model = dict(
         return_levels=True),
     head=dict(
         dict(
-            type='ClsHead',
+            type='DLAClsHead',
             num_convs=2,
             in_channels=512,
             conv_kernel_size=3,

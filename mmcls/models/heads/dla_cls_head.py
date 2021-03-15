@@ -25,7 +25,7 @@ class DLAClsHead(ClsHead):
                  loss_cls=dict(
                      type='CrossEntropyLoss'),
                  topk=(1, )):
-        super(DLAClsHead, self).__init__()
+        super(DLAClsHead, self).__init__(loss=loss_cls, topk=topk)
         self.num_convs = num_convs
         self.in_channels = in_channels
         self.conv_kernel_size = conv_kernel_size
@@ -34,8 +34,8 @@ class DLAClsHead(ClsHead):
         self.conv_cfg = conv_cfg
         self.norm_cfg = norm_cfg
         self.fp16_enabled = False
-        self.loss_cls = build_loss(loss_cls)
-        self.topk = topk
+        # self.loss_cls = build_loss(loss_cls)
+        # self.topk = topk
 
         self.convs = nn.ModuleList()
         for _ in range(3):
@@ -95,7 +95,7 @@ class DLAClsHead(ClsHead):
             # if i != 2:
             #     continue
             labels_i = torch.stack([l[i] for l in gt_label])
-            loss_cls += self.loss_cls(cls_scores[i], labels_i)
+            loss_cls += self.compute_loss(cls_scores[i], labels_i)
         # loss['loss_cls'] = loss_cls
         losses['loss'] = loss_cls
         accs = []
