@@ -91,7 +91,7 @@ class DLAClsHead(ClsHead):
     def loss(self, cls_scores, gt_label):
         losses = dict()
         loss_cls = 0
-        for i in range(len(labels[0])):
+        for i in range(len(gt_label[0])):
             # if i != 2:
             #     continue
             labels_i = torch.stack([l[i] for l in gt_label])
