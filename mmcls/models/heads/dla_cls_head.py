@@ -8,6 +8,7 @@ from ..builder import build_loss
 from ..builder import HEADS
 from ..model_utils import ConvModule
 from .cls_head import ClsHead
+import torch.nn.functional as F
 # from mmdet.core import mask_target, force_fp32, auto_fp16
 
 
