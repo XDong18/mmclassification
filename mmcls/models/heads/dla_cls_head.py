@@ -105,7 +105,7 @@ class DLAClsHead(ClsHead):
             accs.append(acc)
 
         # acc = self.compute_accuracy(cls_score, gt_label)
-        losses['loss'] = loss
+        # losses['loss'] = loss
         assert len(accs[0]) == len(self.topk)
         losses['accuracy_weather'] = {f'weather_top-{k}': a for k, a in zip(self.topk, accs[0])}
         losses['accuracy_scene'] = {f'scene_top-{k}': a for k, a in zip(self.topk, accs[1])}
