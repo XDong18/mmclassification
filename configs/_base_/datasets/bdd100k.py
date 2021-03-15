@@ -6,6 +6,7 @@ train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='RandomCrop', size=640),
     dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
+    dict(type='Pad', size_divisor=32),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
     dict(type='ToTensor', keys=['gt_label']),
@@ -15,6 +16,7 @@ test_pipeline = [
     dict(type='LoadImageFromFile'),
     # dict(type='Resize', size=(256, -1)),
     # dict(type='CenterCrop', crop_size=224),
+    dict(type='Pad', size_divisor=32),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
     dict(type='Collect', keys=['img'])
