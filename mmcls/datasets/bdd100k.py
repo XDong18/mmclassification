@@ -143,7 +143,7 @@ class BddCls(BaseDataset):
                     }
                     for j, class_acc in enumerate(acc):
                         eval_results_.update({
-                            f'accuracy_top-{k}-{NAME_DICT[i]}-{j}':class_acc[0]
+                            f'accuracy_top-1-{NAME_DICT[i]}-{j}':class_acc[0]
                         })
                     list_eval_results_.append(eval_results_)
                     
