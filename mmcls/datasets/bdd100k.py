@@ -132,7 +132,7 @@ class BddCls(BaseDataset):
 
         if 'accuracy' in metrics:
             list_acc = [accuracy_class(results_i, gt_labels_i, topk=topk, thrs=thrs, num_class=CLASS_DICT[idx]) \
-                for idx, results_i, gt_labels_i in enumerate(zip(list_results, list_gt_labels))]
+                for idx, (results_i, gt_labels_i) in enumerate(zip(list_results, list_gt_labels))]
 
             if isinstance(topk, tuple):
                 list_eval_results_ = []
