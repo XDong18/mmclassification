@@ -11,6 +11,8 @@ import json
 
 
 NAME_DICT = {0: 'weather', 1:'scene', 2:'time'}
+CLASS_DICT = {0: 6, 1: 6, 2: 3}
+
 @DATASETS.register_module
 class BddCls(BaseDataset):
 
@@ -129,8 +131,8 @@ class BddCls(BaseDataset):
         average_mode = metric_options.get('average_mode', 'macro')
 
         if 'accuracy' in metrics:
-            list_acc = [accuracy_class(results_i, gt_labels_i, topk=topk, thrs=thrs) \
-                for results_i, gt_labels_i in zip(list_results, list_gt_labels)]
+            list_acc = [accuracy_class(results_i, gt_labels_i, topk=topk, thrs=thrs, num_class=CLASS_DICT[idx]) \
+                for idx, results_i, gt_labels_i in enumerate(zip(list_results, list_gt_labels))]
 
             if isinstance(topk, tuple):
                 list_eval_results_ = []
