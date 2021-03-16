@@ -152,7 +152,7 @@ def accuracy_class(pred, target, topk=1, thrs=None, num_class=None):
         res_list.append(class_res)
         sum_all += class_res[0]
 
-    print(res_list,'pin')
+    # print(res_list,'pin')
     res_list.append(sum_all / num_class)
     return res_list
 
