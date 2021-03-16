@@ -140,6 +140,7 @@ def accuracy_class(pred, target, topk=1, thrs=None, num_class=None):
     res_list = []
     pred_list = []
     target_list = []
+    sum_all = 0
     for i in range(num_class):
         class_pred = pred[np.where(target==i)]
         class_target = target[np.where(target==i)]
@@ -149,8 +150,10 @@ def accuracy_class(pred, target, topk=1, thrs=None, num_class=None):
     for class_pred, class_target in zip(pred_list, target_list):
         class_res = accuracy_numpy(class_pred, class_target, topk, thrs)
         res_list.append(class_res)
+        sum_all += class_res[0]
 
-    res_list.append(sum(res_list) / num_class)
+    print(res_list,'pin')
+    res_list.append(sum_all / num_class)
     return res_list
 
 

@@ -139,11 +139,11 @@ class BddCls(BaseDataset):
                 for i, acc in enumerate(list_acc):
                     eval_results_ = {
                         f'accuracy_top-{k}-{NAME_DICT[i]}-avg': a
-                        for k, a in zip(topk, acc.pop())
+                        for k, a in zip(topk, [acc.pop()])
                     }
                     for j, class_acc in enumerate(acc):
                         eval_results_.update({
-                            f'accuracy_top-{k}-{NAME_DICT[i]}-{j}':class_acc
+                            f'accuracy_top-{k}-{NAME_DICT[i]}-{j}':class_acc[0]
                         })
                     list_eval_results_.append(eval_results_)
                     
