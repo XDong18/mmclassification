@@ -144,7 +144,7 @@ def accuracy_class(pred, target, topk=1, thrs=None, num_class=None):
         class_pred = pred[np.where(target==i)]
         class_target = target[np.where(target==i)]
         pred_list.append(class_pred)
-        taregt_list.append(class_target)
+        target_list.append(class_target)
 
     for class_pred, class_target in zip(pred_list, taregt_list):
         class_res = accuracy_numpy(class_pred, class_target, topk, thrs)
