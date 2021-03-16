@@ -108,6 +108,51 @@ def accuracy(pred, target, topk=1, thrs=None):
 
     return res[0] if return_single else res
 
+def accuracy_class(pred, target, topk=1, thrs=None, num_class=None):
+    """Calculate class accuracy according to the prediction and target
+
+    Args:
+        pred (np.array): The model prediction.
+        target (np.array): The target of each prediction
+        topk (int | tuple[int]): If the predictions in ``topk``
+            matches the target, the predictions will be regarded as
+            correct ones. Defaults to 1.
+        thrs (float, optional): thrs (float | tuple[float], optional):
+            Predictions with scores under the thresholds are considered
+            negative. Default to None.
+
+    Returns:
+        float | list[float] | list[list[float]]: If the input ``topk`` is a
+            single integer, the function will return a single float or a list
+            depending on whether ``thrs`` is a single float. If the input
+            ``topk`` is a tuple, the function will return a list of results
+            of accuracies of each ``topk`` number. That is to say, as long as
+            ``topk`` is a tuple, the returned list shall be of the same length
+            as topk.
+    """
+    assert isinstance(topk, (int, tuple))
+    assert isinstance(num_class, int)
+    if isinstance(topk, int):
+        topk = (topk, )
+        return_single = True
+    else:
+        return_single = False
+    res_list = []
+    pred_list = []
+    target_list = []
+    for i in range(num_class):
+        class_pred = pred[np.where(target==i)]
+        class_target = target[np.where(target==i)]
+        pred_list.append(class_pred)
+        taregt_list.append(class_target)
+
+    for class_pred, class_target in zip(pred_list, taregt_list):
+        class_res = accuracy_numpy(class_pred, class_target, topk, thrs)
+        res_list.append(class_res)
+
+    res_list.append(sum(res_list) / num_class)
+    return res_list
+
 
 class Accuracy(nn.Module):
 

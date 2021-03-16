@@ -4,7 +4,7 @@ import numpy as np
 
 from .base_dataset import BaseDataset
 from .builder import DATASETS
-from mmcls.models.losses import accuracy
+from mmcls.models.losses import accuracy, accuracy_class
 from mmcls.core.evaluation import precision_recall_f1, support
 import mmcv
 import json
@@ -129,16 +129,20 @@ class BddCls(BaseDataset):
         average_mode = metric_options.get('average_mode', 'macro')
 
         if 'accuracy' in metrics:
-            list_acc = [accuracy(results_i, gt_labels_i, topk=topk, thrs=thrs) \
+            list_acc = [accuracy_class(results_i, gt_labels_i, topk=topk, thrs=thrs) \
                 for results_i, gt_labels_i in zip(list_results, list_gt_labels)]
 
             if isinstance(topk, tuple):
                 list_eval_results_ = []
                 for i, acc in enumerate(list_acc):
                     eval_results_ = {
-                        f'accuracy_top-{k}-{NAME_DICT[i]}': a
-                        for k, a in zip(topk, acc)
+                        f'accuracy_top-{k}-{NAME_DICT[i]}-avg': a
+                        for k, a in zip(topk, acc.pop())
                     }
+                    for j, class_acc in enumerate(acc):
+                        eval_results_.update({
+                            f'accuracy_top-{k}-{NAME_DICT[i]}-{j}':class_acc
+                        })
                     list_eval_results_.append(eval_results_)
                     
             else:
